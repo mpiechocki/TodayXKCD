@@ -17,6 +17,8 @@
 		79E0206A21623B5100D66ED1 /* XKCDTodayWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 79E0205D21623B5100D66ED1 /* XKCDTodayWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		79E020712162441200D66ED1 /* XKCDWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E020702162441200D66ED1 /* XKCDWidgetView.swift */; };
 		79E020732162509D00D66ED1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79E0204E21623A8B00D66ED1 /* Assets.xcassets */; };
+		79E0208C216257B100D66ED1 /* Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79E0208B216257B100D66ED1 /* Networking.framework */; };
+		79E0208D216257B100D66ED1 /* Networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 79E0208B216257B100D66ED1 /* Networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,17 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		79E0208E216257B100D66ED1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				79E0208D216257B100D66ED1 /* Networking.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +69,9 @@
 		79E0206221623B5100D66ED1 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		79E0206721623B5100D66ED1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79E020702162441200D66ED1 /* XKCDWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XKCDWidgetView.swift; sourceTree = "<group>"; };
+		79E020892162579800D66ED1 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79E0208B216257B100D66ED1 /* Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79E02090216257FD00D66ED1 /* Networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Networking.framework; path = "../../../../Library/Developer/Xcode/DerivedData/XKCDToday-cvovbdqbnorhrucphkrwrjxvrjpv/Build/Products/Debug-iphoneos/Networking.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79E0208C216257B100D66ED1 /* Networking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +97,8 @@
 		79E0203B21623A8A00D66ED1 = {
 			isa = PBXGroup;
 			children = (
+				79E0208F216257EC00D66ED1 /* Frameworks */,
+				79E0208B216257B100D66ED1 /* Networking.framework */,
 				79E0204621623A8A00D66ED1 /* XKCDToday */,
 				79E0206121623B5100D66ED1 /* XKCDTodayWidget */,
 				79E0205E21623B5100D66ED1 /* Frameworks */,
@@ -112,6 +131,7 @@
 		79E0205E21623B5100D66ED1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				79E020892162579800D66ED1 /* Networking.framework */,
 				79E0205F21623B5100D66ED1 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -135,6 +155,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		79E0208F216257EC00D66ED1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				79E02090216257FD00D66ED1 /* Networking.framework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,6 +174,7 @@
 				79E0204121623A8A00D66ED1 /* Frameworks */,
 				79E0204221623A8A00D66ED1 /* Resources */,
 				79E0206E21623B5100D66ED1 /* Embed App Extensions */,
+				79E0208E216257B100D66ED1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
