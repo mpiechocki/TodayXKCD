@@ -13,14 +13,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     private let apiClient = XKCDApiClient()
 
-    // MARK: Privates
-
-    private var currentXkcdInfo: XKCDInfo? {
-        didSet {
-            if let currentXkcdInfo = currentXkcdInfo { updateView() }
-        }
-    }
-
     // MARK: Lifecycle
         
     override func viewDidLoad() {
@@ -30,13 +22,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        apiClient.getCurrent { [weak self] result in
-            switch result {
-            case .error: print("Error downloading current comic")
-            case .success(let xkcdInfo): self?.currentXkcdInfo = xkcdInfo
-            }
-        }
+        update()
     }
 
     override func loadView() {
@@ -50,12 +36,45 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return view as? XKCDWidgetView
     }
 
-    private func updateView() {
+    private func updateInfo() {
         guard let current = currentXkcdInfo else { return }
-        DispatchQueue.main.async { [current, weak self] in
-            self?.xkcdWidgetView.dateLabel.text = "\(current.year)-\(current.month)-\(current.day)/\(current.num)"
-            self?.xkcdWidgetView.titleLabel.text = current.title
-        }   
+        xkcdWidgetView.dateLabel.text = "\(current.year)-\(current.month)-\(current.day)/\(current.num)"
+        xkcdWidgetView.titleLabel.text = current.title
+    }
+
+    private func updateComic(_ image: UIImage) {
+        xkcdWidgetView.imageView.image = image
+    }
+
+    // MARK: Privates
+
+    private var currentXkcdInfo: XKCDInfo? {
+        didSet {
+            if currentXkcdInfo != nil { updateInfo() }
+        }
+    }
+
+    private func getImage(with url: String) {
+        print("calling ... getImage")
+        apiClient.getComic(url: url) { [weak self] result in
+            switch result {
+            case .error: print("Error downloading the image")
+            case .success(let image): self?.updateComic(image)
+            }
+        }
+    }
+
+    private func update() {
+        apiClient.getCurrent { [weak self] result in
+            switch result {
+            case .error: print("Error downloading current comic")
+            case .success(let xkcdInfo):
+                if self?.currentXkcdInfo != xkcdInfo {
+                    self?.currentXkcdInfo = xkcdInfo
+                    self?.getImage(with: xkcdInfo.img)
+                }
+            }
+        }
     }
 
     // MARK: NCWidgetProviding
@@ -66,20 +85,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         // If an error is encountered, use NCUpdateResult.Failed
         // If there's no update required, use NCUpdateResult.NoData
         // If there's an update, use NCUpdateResult.NewData
-
-        apiClient.getCurrent { [weak self] result in
-            switch result {
-            case .error: completionHandler(.failed)
-            case .success(let xkcdInfo):
-                self?.currentXkcdInfo = xkcdInfo
-                completionHandler(.newData)
-            }
-        }
+        update()
+        completionHandler(.newData)
     }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         let expanded = activeDisplayMode == .expanded
-        preferredContentSize = expanded ? maxSize : minSize
+        preferredContentSize = expanded ? xkcdWidgetView.imageView.intrinsicContentSize : minSize
     }
     
 }
