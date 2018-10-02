@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		79E020832162570800D66ED1 /* Networking.h in Headers */ = {isa = PBXBuildFile; fileRef = 79E020812162570800D66ED1 /* Networking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		79E020932162581F00D66ED1 /* XKCDApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E020922162581F00D66ED1 /* XKCDApiClient.swift */; };
+		79E0209621625D9B00D66ED1 /* XKCDInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E0209521625D9B00D66ED1 /* XKCDInfo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +17,7 @@
 		79E020812162570800D66ED1 /* Networking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Networking.h; sourceTree = "<group>"; };
 		79E020822162570800D66ED1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79E020922162581F00D66ED1 /* XKCDApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XKCDApiClient.swift; sourceTree = "<group>"; };
+		79E0209521625D9B00D66ED1 /* XKCDInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XKCDInfo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 		79E020802162570800D66ED1 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				79E0209421625D8400D66ED1 /* Models */,
 				79E020912162580600D66ED1 /* XKCDApiClient */,
 				79E020812162570800D66ED1 /* Networking.h */,
 				79E020822162570800D66ED1 /* Info.plist */,
@@ -61,6 +64,14 @@
 				79E020922162581F00D66ED1 /* XKCDApiClient.swift */,
 			);
 			path = XKCDApiClient;
+			sourceTree = "<group>";
+		};
+		79E0209421625D8400D66ED1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				79E0209521625D9B00D66ED1 /* XKCDInfo.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79E020932162581F00D66ED1 /* XKCDApiClient.swift in Sources */,
+				79E0209621625D9B00D66ED1 /* XKCDInfo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
