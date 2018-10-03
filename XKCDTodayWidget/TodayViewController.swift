@@ -35,9 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     private var currentImgLink: String?
 
     private func updateInfo(with info: XKCDInfo) {
-        xkcdWidgetView.dateLabel.text = "\(info.year)-\(info.month)-\(info.day)"
         xkcdWidgetView.titleLabel.text = info.title
-        xkcdWidgetView.altTextLabel.text = info.alt
         currentImgLink = info.img
     }
 
@@ -66,7 +64,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         let expanded = activeDisplayMode == .expanded
         if expanded {
-            preferredContentSize = CGSize(width: maxSize.width, height: fmin(xkcdWidgetView.intrinsicContentSize.height, maxSize.height))
+            preferredContentSize = CGSize(
+                width: maxSize.width,
+                height: fmin(xkcdWidgetView.intrinsicContentSize.height, maxSize.height)
+            )
         } else {
             preferredContentSize = maxSize
         }

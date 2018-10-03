@@ -11,14 +11,8 @@ class XKCDWidgetView: UIView {
 
     // MARK: Subviews
 
-    let dateLabel = Factory.dateLabel()
     let titleLabel = Factory.titleLabel()
-    let altTextLabel = Factory.altTextLabel()
     let imageView = Factory.imageView()
-    private let altTextContainer = UIView(frame: .zero)
-    private let infoStackView = Factory.infoStackView()
-    private let headerStackView = Factory.headerStackView()
-    private let verticalStackView = Factory.verticalStackView()
 
     // MARK: Layout
 
@@ -52,61 +46,17 @@ class XKCDWidgetView: UIView {
 
 private extension XKCDWidgetView {
     struct Factory {
-        static func dateLabel() -> UILabel {
-            let label = UILabel(frame: .zero)
-            label.font = UIFont.init(name: "AmericanTypewriter", size: 11.0)
-//            label.layer.borderColor = UIColor.red.cgColor
-//            label.layer.borderWidth = 1.0
-            return label
-        }
-
         static func titleLabel() -> UILabel {
             let label = UILabel(frame: .zero)
             label.font = UIFont.init(name: "AmericanTypewriter", size: 14.0)
             label.textAlignment = .center
-//            label.layer.borderColor = UIColor.red.cgColor
-//            label.layer.borderWidth = 1.0
-            return label
-        }
-
-        static func altTextLabel() -> UILabel {
-            let label = UILabel(frame: .zero)
-            label.font = UIFont.init(name: "AmericanTypewriter", size: 14.0)
-            label.lineBreakMode = .byWordWrapping
-            label.numberOfLines = 0
-//            label.layer.borderColor = UIColor.red.cgColor
-//            label.layer.borderWidth = 1.0
             return label
         }
 
         static func imageView() -> UIImageView {
             let imageView = UIImageView(frame: .zero)
             imageView.contentMode = .scaleAspectFit
-//            imageView.layer.borderColor = UIColor.red.cgColor
-//            imageView.layer.borderWidth = 1.0
             return imageView
-        }
-
-        static func infoStackView() -> UIStackView {
-            let stackView = UIStackView(frame: .zero)
-            stackView.distribution = .fillProportionally
-            stackView.axis = .horizontal
-            stackView.spacing = 5.0
-            return stackView
-        }
-
-        static func headerStackView() -> UIStackView {
-            let stackView = UIStackView(frame: .zero)
-            stackView.axis = .vertical
-            return stackView
-        }
-
-        static func verticalStackView() -> UIStackView {
-            let stackView = UIStackView(frame: .zero)
-            stackView.axis = .vertical
-            stackView.spacing = 5.0
-            stackView.distribution = .fillProportionally
-            return stackView
         }
     }
 }
