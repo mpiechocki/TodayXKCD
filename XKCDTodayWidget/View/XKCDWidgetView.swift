@@ -24,51 +24,60 @@ class XKCDWidgetView: UIView {
 
     override var intrinsicContentSize: CGSize {
         let width: CGFloat = 320
-        let height: CGFloat = imageView.intrinsicContentSize.height + titleLabel.intrinsicContentSize.height  + altTextLabel.intrinsicContentSize.height
+//        let height: CGFloat = imageView.intrinsicContentSize.height + titleLabel.intrinsicContentSize.height  + altTextLabel.intrinsicContentSize.height
+        let height: CGFloat = imageView.intrinsicContentSize.height
         return CGSize(width: width, height: height)
     }
 
     private func setupLayout() {
-        altTextContainer.addSubview(altTextLabel)
-        altTextLabel.translatesAutoresizingMaskIntoConstraints = false
+//        altTextContainer.addSubview(altTextLabel)
+//        altTextLabel.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            NSLayoutConstraint(item: altTextLabel, attribute: .leading, relatedBy: .equal, toItem: altTextContainer, attribute: .leading, multiplier: 1.0, constant: 0.0),
+//            NSLayoutConstraint(item: altTextLabel, attribute: .trailing, relatedBy: .equal, toItem: altTextContainer, attribute: .trailing, multiplier: 1.0, constant: 0.0),
+//            NSLayoutConstraint(item: altTextLabel, attribute: .top, relatedBy: .equal, toItem: altTextContainer, attribute: .top, multiplier: 1.0, constant: 0.0),
+//            NSLayoutConstraint(item: altTextLabel, attribute: .bottom, relatedBy: .equal, toItem: altTextContainer, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+//        ])
+//
+//        [dateLabel, titleLabel].forEach(infoStackView.addArrangedSubview)
+//        [infoStackView, altTextContainer].forEach(headerStackView.addArrangedSubview)
+//
+//        verticalStackView.addArrangedSubview(imageView)
+//        addSubview(verticalStackView)
+//
+//        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
+//
+//        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+//        NSLayoutConstraint.activate([
+//            NSLayoutConstraint(item: verticalStackView, attribute: .leading, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 5.0),
+//            NSLayoutConstraint(item: verticalStackView, attribute: .trailing, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: -5.0),
+//            NSLayoutConstraint(item: verticalStackView, attribute: .top, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0),
+//            NSLayoutConstraint(item: verticalStackView, attribute: .bottom, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+//        ])
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(imageView)
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: altTextLabel, attribute: .leading, relatedBy: .equal, toItem: altTextContainer, attribute: .leading, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: altTextLabel, attribute: .trailing, relatedBy: .equal, toItem: altTextContainer, attribute: .trailing, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: altTextLabel, attribute: .top, relatedBy: .equal, toItem: altTextContainer, attribute: .top, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: altTextLabel, attribute: .bottom, relatedBy: .equal, toItem: altTextContainer, attribute: .bottom, multiplier: 1.0, constant: 0.0)
-        ])
-
-        [dateLabel, titleLabel].forEach(infoStackView.addArrangedSubview)
-        [infoStackView, altTextContainer].forEach(headerStackView.addArrangedSubview)
-
-        verticalStackView.addArrangedSubview(imageView)
-        addSubview(verticalStackView)
-
-        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
-
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: verticalStackView, attribute: .leading, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 5.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .trailing, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: -5.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .top, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .bottom, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: imageView.superview, attribute: .leading, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: imageView.superview, attribute: .trailing, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: imageView.superview, attribute: .top, multiplier: 1.0, constant: 0.0),
+            NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: imageView.superview, attribute: .bottom, multiplier: 1.0, constant: 0.0)
         ])
     }
 
     func expand() {
-        verticalStackView.arrangedSubviews.forEach {
-            verticalStackView.removeArrangedSubview($0)
-            $0.removeFromSuperview()
-        }
-        [headerStackView, imageView].forEach(verticalStackView.addArrangedSubview)
+//        verticalStackView.arrangedSubviews.forEach {
+//            verticalStackView.removeArrangedSubview($0)
+//            $0.removeFromSuperview()
+//        }
+//        [headerStackView, imageView].forEach(verticalStackView.addArrangedSubview)
     }
 
     func collapse() {
-        verticalStackView.arrangedSubviews.forEach {
-            verticalStackView.removeArrangedSubview($0)
-            $0.removeFromSuperview()
-        }
-        verticalStackView.addArrangedSubview(imageView)
+//        verticalStackView.arrangedSubviews.forEach {
+//            verticalStackView.removeArrangedSubview($0)
+//            $0.removeFromSuperview()
+//        }
+//        verticalStackView.addArrangedSubview(imageView)
     }
 
 }

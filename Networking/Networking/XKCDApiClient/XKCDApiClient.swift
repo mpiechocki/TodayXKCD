@@ -7,8 +7,47 @@ public class XKCDApiClient {
 
     public init() {}
 
-    public func getCurrent(handler: @escaping (Result<XKCDInfo>) -> Void) {
-        guard let url = URL(string: "https://xkcd.com/info.0.json") else { handler(.error); return }
+//    private let apiURL = "https://xkcd.com/info.0.json"
+    private let apiURL = "https://xkcd.com/614/info.0.json"
+
+    public func getComic(handler: @escaping (Result<XKCDComic>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        var comicInfo: XKCDInfo?
+        var comicImage: UIImage?
+
+        dispatchGroup.enter()
+        getCurrentInfo { [weak self] infoResult in
+            switch infoResult {
+            case .error:
+                print("Error loading comic INFO...")
+                dispatchGroup.leave()
+            case .success(let info):
+                comicInfo = info
+                dispatchGroup.enter()
+                self?.getImage(url: info.img) { imageResult in
+                    switch imageResult {
+                    case .error:
+                        print("Error loading comic IMAGE...")
+                        dispatchGroup.leave()
+                    case .success(let image):
+                        comicImage = image
+                        dispatchGroup.leave()
+                    }
+                    dispatchGroup.leave()
+                }
+            }
+        }
+
+        dispatchGroup.wait()
+        if let comicInfo = comicInfo, let comicImage = comicImage {
+            DispatchQueue.main.async { handler(.success(XKCDComic(info: comicInfo, comicImage: comicImage))) }
+        } else {
+            DispatchQueue.main.async { handler(.error) }
+        }
+    }
+
+    private func getCurrentInfo(handler: @escaping (Result<XKCDInfo>) -> Void) {
+        guard let url = URL(string: apiURL) else { handler(.error); return }
         let request = URLRequest(url: url)
         let session = URLSession.shared
         let task = session.dataTask(with: request) { (data, response, error) in
@@ -20,7 +59,7 @@ public class XKCDApiClient {
 
             do {
                 let xkcdInfo = try JSONDecoder().decode(XKCDInfo.self, from: responseData)
-                DispatchQueue.main.async { handler(.success(xkcdInfo)) }
+                handler(.success(xkcdInfo))
             } catch {
                 handler(.error)
                 return
@@ -29,7 +68,7 @@ public class XKCDApiClient {
         task.resume()
     }
 
-    public func getComic(url: String, handler: @escaping (Result<UIImage>) -> Void) {
+    private func getImage(url: String, handler: @escaping (Result<UIImage>) -> Void) {
         guard let url = URL(string: url) else { handler(.error); return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard
@@ -39,7 +78,7 @@ public class XKCDApiClient {
                 let image = UIImage(data: data)
             else { handler(.error); return }
 
-            DispatchQueue.main.async { handler(.success(image)) }
+            handler(.success(image))
         }.resume()
     }
 
