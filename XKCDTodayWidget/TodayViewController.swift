@@ -1,20 +1,16 @@
-//
-//  TodayViewController.swift
-//  XKCDTodayWidget
-//
-//  Created by Mikolaj Piechocki on 01/10/2018.
-//  Copyright © 2018 Mikolaj Piechocki. All rights reserved.
-//
-
 import UIKit
 import NotificationCenter
+import Networking
 
 @objc (TodayViewController)
 
 class TodayViewController: UIViewController, NCWidgetProviding {
 
-    let maxSize = CGSize(width: 320, height: 400)
-    let minSize = CGSize(width: 320, height: 50)
+    // MARK: Dependecies
+
+    private let apiClient = XKCDApiClient()
+
+    // MARK: Lifecycle
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,23 +22,53 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         self.view = view
     }
 
+    // MARK: View
+
     private var xkcdWidgetView: XKCDWidgetView! {
         return view as? XKCDWidgetView
     }
 
+    // MARK: Privates
+
+    private var currentImgLink: String?
+
+    private func updateInfo(with info: XKCDInfo) {
+        xkcdWidgetView.titleLabel.text = info.title
+        currentImgLink = info.img
+    }
+
+    private func updateComic(_ image: UIImage) {
+        xkcdWidgetView.imageView.image = image
+    }
+
+    // MARK: NCWidgetProviding
+
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
-        
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-        
-        completionHandler(NCUpdateResult.newData)
+        apiClient.getComic { [weak self] result in
+            switch result {
+            case .error: completionHandler(.failed)
+            case .success(let comic):
+                if self?.currentImgLink != comic.info.img {
+                    self?.updateInfo(with: comic.info)
+                    self?.updateComic(comic.comicImage)
+                    completionHandler(.newData)
+                } else {
+                    completionHandler(.noData)
+                }
+            }
+        }
     }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         let expanded = activeDisplayMode == .expanded
-        preferredContentSize = expanded ? maxSize : minSize
+        if expanded {
+            preferredContentSize = CGSize(
+                width: maxSize.width,
+                height: fmin(xkcdWidgetView.intrinsicContentSize.height, maxSize.height)
+            )
+        } else {
+            preferredContentSize = maxSize
+        }
     }
-    
+
 }

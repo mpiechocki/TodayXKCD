@@ -11,27 +11,34 @@ class XKCDWidgetView: UIView {
 
     // MARK: Subviews
 
-    let dateLabel = Factory.dateLabel()
     let titleLabel = Factory.titleLabel()
     let imageView = Factory.imageView()
-    private let infoStackView = Factory.infoStackView()
-    private let verticalStackView = Factory.verticalStackView()
 
     // MARK: Layout
 
+    override var intrinsicContentSize: CGSize {
+        let width: CGFloat = 320
+        let height: CGFloat = imageView.intrinsicContentSize.height + titleLabel.intrinsicContentSize.height
+        return CGSize(width: width, height: height)
+    }
+
     private func setupLayout() {
-        [dateLabel, titleLabel].forEach(infoStackView.addArrangedSubview)
-        [infoStackView, imageView].forEach(verticalStackView.addArrangedSubview)
-        addSubview(verticalStackView)
-
-        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
-
-        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         NSLayoutConstraint.activate([
-            NSLayoutConstraint(item: verticalStackView, attribute: .leading, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .trailing, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .top, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0),
-            NSLayoutConstraint(item: verticalStackView, attribute: .bottom, relatedBy: .equal, toItem: safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0.0)
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 5.0),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -5.0),
+            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
+        ])
+
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 5.0),
+            NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -5.0),
+            NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1.0, constant: 1.0),
+            NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0)
         ])
     }
 
@@ -39,40 +46,17 @@ class XKCDWidgetView: UIView {
 
 private extension XKCDWidgetView {
     struct Factory {
-        static func dateLabel() -> UILabel {
-            let label = UILabel(frame: .zero)
-            label.text = "DATE"
-            label.layer.borderColor = UIColor.red.cgColor
-            label.layer.borderWidth = 1.0
-            return label
-        }
-
         static func titleLabel() -> UILabel {
             let label = UILabel(frame: .zero)
-            label.text = "TiTLE"
-            label.layer.borderColor = UIColor.green.cgColor
-            label.layer.borderWidth = 1.0
+            label.font = UIFont.init(name: "AmericanTypewriter", size: 14.0)
+            label.textAlignment = .center
             return label
-        }
-
-        static func infoStackView() -> UIStackView {
-            let stackView = UIStackView(frame: .zero)
-            stackView.distribution = .fillProportionally
-            stackView.axis = .horizontal
-            return stackView
         }
 
         static func imageView() -> UIImageView {
             let imageView = UIImageView(frame: .zero)
-            imageView.image = #imageLiteral(resourceName: "imageimage")
             imageView.contentMode = .scaleAspectFit
             return imageView
-        }
-
-        static func verticalStackView() -> UIStackView {
-            let stackView = UIStackView(frame: .zero)
-            stackView.axis = .vertical
-            return stackView
         }
     }
 }
