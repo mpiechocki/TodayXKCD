@@ -66,10 +66,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         let expanded = activeDisplayMode == .expanded
         if expanded {
-//            xkcdWidgetView.expand()
-            preferredContentSize = CGSize(width: maxSize.width, height: xkcdWidgetView.intrinsicContentSize.height)
+            preferredContentSize = CGSize(width: maxSize.width, height: fmin(xkcdWidgetView.intrinsicContentSize.height, maxSize.height))
         } else {
-//            xkcdWidgetView.collapse()
             preferredContentSize = maxSize
         }
     }

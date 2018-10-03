@@ -8,7 +8,7 @@ public class XKCDApiClient {
     public init() {}
 
     private let apiURL = "https://xkcd.com/info.0.json"
-//    private let apiURL = "https://xkcd.com/614/info.0.json"
+//    private let apiURL = "https://xkcd.com/2048/info.0.json"
 
     public func getComic(handler: @escaping (Result<XKCDComic>) -> Void) {
         let dispatchGroup = DispatchGroup()
