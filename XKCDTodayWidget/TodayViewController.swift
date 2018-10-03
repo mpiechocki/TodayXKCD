@@ -6,8 +6,6 @@ import Networking
 
 class TodayViewController: UIViewController, NCWidgetProviding {
 
-    let minSize = CGSize(width: 320, height: 50)
-
     // MARK: Dependecies
 
     private let apiClient = XKCDApiClient()
