@@ -6,7 +6,6 @@ import Networking
 
 class TodayViewController: UIViewController, NCWidgetProviding {
 
-    let maxSize = CGSize(width: 320, height: 400)
     let minSize = CGSize(width: 320, height: 50)
 
     // MARK: Dependecies
@@ -36,22 +35,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return view as? XKCDWidgetView
     }
 
+    // MARK: Privates
+
+    private var currentXkcdInfo: XKCDInfo? {
+        didSet { if currentXkcdInfo != nil { updateInfo() } }
+    }
+
     private func updateInfo() {
         guard let current = currentXkcdInfo else { return }
-        xkcdWidgetView.dateLabel.text = "\(current.year)-\(current.month)-\(current.day)/\(current.num)"
+        xkcdWidgetView.dateLabel.text = "\(current.year)-\(current.month)-\(current.day)"
         xkcdWidgetView.titleLabel.text = current.title
+        xkcdWidgetView.altTextLabel.text = current.alt
     }
 
     private func updateComic(_ image: UIImage) {
         xkcdWidgetView.imageView.image = image
-    }
-
-    // MARK: Privates
-
-    private var currentXkcdInfo: XKCDInfo? {
-        didSet {
-            if currentXkcdInfo != nil { updateInfo() }
-        }
     }
 
     private func getImage(with url: String) {
@@ -91,7 +89,13 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         let expanded = activeDisplayMode == .expanded
-        preferredContentSize = expanded ? xkcdWidgetView.imageView.intrinsicContentSize : minSize
+        if expanded {
+            xkcdWidgetView.expand()
+            preferredContentSize = CGSize(width: maxSize.width, height: xkcdWidgetView.intrinsicContentSize.height)
+        } else {
+            xkcdWidgetView.collapse()
+            preferredContentSize = maxSize
+        }
     }
-    
+
 }
